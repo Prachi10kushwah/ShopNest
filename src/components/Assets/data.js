@@ -1,65 +1,65 @@
-import p1_img from "./product_1.png";
-import p2_img from "./product_2.png";
-import p3_img from "./product_3.png";
-import p4_img from "./product_4.png";
-import p5_img from "./product_5.png";
-import p6_img from "./product_6.png";
-import p7_img from "./product_7.png";
-import p8_img from "./product_8.png";
+import p1_img from "./allProduct_1.png"
+import p2_img from "./allProduct_11.png"
+import p3_img from "./allproduct_14.png";
+import p4_img from "./allproduct_4.png";
+import p5_img from "./allproduct_21.png";
+import p6_img from "./allproduct_8.png";
+import p7_img from "./allproduct_32.png";
+import p8_img from "./allproduct_45.png";
 
 let data_product = [
   {
     id: 1,
-    name: "Elegant Floral Maxi Dress",
+    name: "Move All Day Comfortech T-shirt",
     image: p1_img,
-    new_price: 89.99,
-    old_price: 119.99,
+    new_price: 23,
+    old_price: 56,
   },
   {
-    id: 2,
-    name: "Men's Slim Fit Denim Jacket",
+    id: 11,
+    name: "Floral Printed Square Neck Pure Cotton Kurti",
     image: p2_img,
-    new_price: 74.99,
-    old_price: 99.99,
+    new_price: 59,
+    old_price: 68,
   },
   {
-    id: 3,
-    name: "Casual Oversized White Shirt",
+    id: 14,
+    name: "Women Top with Palazzos",
     image: p3_img,
     new_price: 49.99,
-    old_price: 69.99,
+    old_price: 68.99,
   },
   {
     id: 4,
-    name: "Kids Printed Cotton T-Shirt",
+    name:"Men Cotton Colourblocked T-shirt",
     image: p4_img,
     new_price: 24.99,
     old_price: 34.99,
   },
   {
-    id: 5,
-  name: "Men's Premium Polo T-Shirt",
-  image: p5_img,
-  new_price: 39.99,
-  old_price: 59.99,
+    id: 21,
+    name: "Girls Floral Printed Fit & Flare Casual Sleeveless Dress",
+    image: p5_img,
+    new_price: 39.99,
+    old_price: 59.99,
   },
   {
-    id: 6,
-    name: "Olive Green Satin Evening Gown",
+    id: 8,
+    name: "The Lifestyle Co Cotton Full Sleeve Shirts",
     image: p6_img,
-    new_price: 159.99,
-    old_price: 219.99,
+    new_price: 45.99,
+    old_price: 57.99,
   },
    {
-    id: 7,
-    name: "Luxury Leather Handbag",
+    id: 32,
+    name: "Tuff Hawk Smartwatch with 1.39 HD Display, Working Crown & Quick Access Torch",
     image: p7_img,
     new_price: 109.99,
     old_price: 149.99,
   },
   {
-    id: 8,
-    name: "Classic Analog Wrist Watch",
+    id: 45,
+    name: "Unisex Large Duffel Bag 40 L With Detachable Shoulder Strap & Handle",
     image: p8_img,
     new_price: 79.99,
     old_price: 109.99,

@@ -1,68 +1,68 @@
-import np1_img from "./newProduct_1.png";
-import np2_img from "./newProduct_2.png";
-import np3_img from "./newProduct_3.png";
-import np4_img from "./newProduct_4.png";
-import np5_img from "./newProduct_5.png";
-import np6_img from "./newProduct_6.png";
-import np7_img from "./newProduct_7.png";
-import np8_img from "./newProduct_8.png";
+import np1_img from "./allProduct_6.png";
+import np2_img from "./allProduct_12.png";
+import np3_img from "./allProduct_13.png";
+import np4_img from "./allProduct_24.png";
+import np5_img from "./allProduct_5.png";
+import np6_img from "./allProduct_26.png";
+import np7_img from "./allProduct_17.png";
+import np8_img from "./allProduct_48.png";
 
 let new_collections = [
   {
-    id: 1,
-    name: "Elegant Beige Co-ord Set",
+    id: 6,
+    name: "Pack Of 2 Typography Printed Crew Neck Drop Shoulder Oversized T-shirts",
     image: np1_img,
-    new_price: 89.99,
-    old_price: 119.99,
+    new_price: 61,
+    old_price: 65,
   },
   {
-    id: 2,
-    name: "Women's Casual Denim Jacket",
+    id: 12,
+    name: "Women Floral Printed Fit & Flare Midi Dress",
     image: np2_img,
     new_price: 74.99,
     old_price: 99.99,
   },
   {
-    id: 3,
-    name: "Girls Puff Sleeve Flap Detail Denim Dress",
+    id: 13,
+    name: "Floral Printed Lapel Collar Shirt With Trousers",
     image: np3_img,
     new_price: 129.99,
     old_price: 169.99,
   },
   {
-    id: 4,
-    name: "Premium White Linen Shirt",
+    id: 24,
+    name: "Girls T-shirt",
     image: np4_img,
     new_price: 59.99,
     old_price: 79.99,
   },
   {
     id: 5,
-    name: "Luxury Leather Crossbody Bag",
+    name: "Striped Polo Collar T-shirt",
     image: np5_img,
-    new_price: 99.99,
-    old_price: 139.99,
+    new_price: 50,
+    old_price: 61,
   },
   {
-    id: 6,
-    name: "Rose Gold Analog Watch",
+    id: 26,
+    name: "Girls Printed Round Neck Pure Cotton T-shirt With Trousers",
     image: np6_img,
-    new_price: 149.99,
-    old_price: 199.99,
+    new_price: 49.99,
+    old_price: 68,
   },
   {
-    id: 7,
-    name: "Women's Wide Leg Jeans",
+    id: 17,
+    name: "Halter Neck Basic Jumpsuit with Embroidered",
     image: np7_img,
     new_price: 69.99,
     old_price: 94.99,
   },
   {
-    id: 8,
-    name: "Classic Black Handbag",
+    id: 48,
+    name: "Kids Printed Hard-Sided Water-Resistant Medium Trolley Bag",
     image: np8_img,
-    new_price: 119.99,
-    old_price: 159.99,
+    new_price: 119.90,
+    old_price: 150,
   },
 ];
 
