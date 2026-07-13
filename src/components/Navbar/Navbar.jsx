@@ -4,15 +4,16 @@ import { ShoppingCart } from 'lucide-react';
 import { CircleUserRound } from 'lucide-react';
 import { Link } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
+import { Heart } from "lucide-react";
 
 const Navbar = () => {
-  const { cartItems } = useContext(ShopContext);
-
+  const { cartItems, wishlistItems } = useContext(ShopContext);
 
   const cartCount = Object.values(cartItems).reduce(
     (sum, qty) => sum + qty,
     0
   );
+  const wishlistCount = Object.values(wishlistItems).filter(Boolean).length;
 
   const [menu, setMenu] = useState("shop")
   return (
@@ -54,7 +55,16 @@ const Navbar = () => {
         <Link to="/login"><button className="border px-3 py-1 rounded-lg font-['Poppins'] cursor-pointer hover:shadow-lg active:scale-95 transition-all duration-200 text-[#11231e]">
           Login
         </button></Link>
+        {/* -------------------------------- wishlist ------------------------------------------- */}
+        <Link to="/wishlist" className="relative">
+          <Heart size={28} className="text-[#11231e]" />
 
+          {wishlistCount > 0 && (
+          <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-600 text-white text-xs flex items-center justify-center">
+          {wishlistCount}
+          </span>
+          )}
+        </Link>
         {/*------------------------------ Cart ----------------------------------------------*/}
         <Link to="/cart" className="relative cursor-pointer">
         <ShoppingCart size={28} className="mt-1 cursor-pointer text-[#11231e]"  />

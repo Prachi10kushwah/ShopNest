@@ -10,6 +10,7 @@ import User from './pages/User';
 import Hero from './components/Hero/Hero';
 import Footer from './components/Footer/Footer';
 import { useLocation } from "react-router-dom";
+import Wishlist from './pages/Wishlist';
 
 
 const App = () => {
@@ -28,6 +29,9 @@ const App = () => {
 
         {/* ---------------------------------- Route for ProductId ---------------------------- */}
         <Route path="/product/:productId" element={<Product />} />
+
+        {/* -----------------------------------Route for Wishlist ------------------------------------- */}
+        <Route path="/wishlist" element={<Wishlist/>} />
 
         {/*--------------------------------------Route for Cart --------------------------------- */}
         <Route path='/cart' element={<Cart/>}/>

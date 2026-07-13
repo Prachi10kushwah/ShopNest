@@ -11,9 +11,17 @@ export const ShopContext = createContext(null)
         }
         return cart
     }
+    const getDefaultWishlist = () => {
+        let wishlist = {};
+        for (let index = 0; index <= all_product.length; index++) {
+            wishlist[index] = false;
+        }
+        return wishlist;
+    };
 
-const ShopContextProvider = (props) => {
-    const [cartItems, setCartItems] = useState(getDefaultCart())    
+    const ShopContextProvider = (props) => {
+    const [cartItems, setCartItems] = useState(getDefaultCart()) 
+    const [wishlistItems, setWishlistItems] = useState({});   
     
 
     const addToCart = (itemId) =>{
@@ -22,7 +30,10 @@ const ShopContextProvider = (props) => {
     const removeFromCart = (itemId) =>{
         setCartItems((prev)=>({...prev,[itemId]: prev[itemId]-1}))
     }
-    const contextvalue = {all_product,cartItems,addToCart,removeFromCart}
+    const toggleWishlist = (itemId) => {
+        setWishlistItems((prev) => ({...prev,[itemId]: !prev[itemId],}));
+    }
+    const contextvalue = {all_product,cartItems,addToCart,removeFromCart,wishlistItems,toggleWishlist,}
     
     return(
         <ShopContext.Provider value={contextvalue}>

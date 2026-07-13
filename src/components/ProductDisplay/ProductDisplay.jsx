@@ -1,10 +1,13 @@
 import React, { useContext } from "react";
-import { Star } from "lucide-react";
+import { Star, Heart } from "lucide-react";
 import { ShopContext } from "../../Context/ShopContext";
 
-const ProductDisplay = (props) => {
-  const { product } = props;
-  const {addToCart} = useContext(ShopContext)
+const ProductDisplay = ({ product }) => {
+  const {
+    addToCart,
+    wishlistItems,
+    toggleWishlist,
+  } = useContext(ShopContext);
 
   return (
     <div className="max-w-7xl mx-auto flex gap-16 py-16 px-6 bg-[#FDECE2]">
@@ -87,30 +90,41 @@ const ProductDisplay = (props) => {
         </h2>
 
         <div className="flex gap-4 mt-5">
-          <div className="w-14 h-14 flex items-center justify-center rounded-xl border border-[#d8c8bf] bg-white hover:bg-[#11231e] hover:text-white hover:border-[#11231e] transition cursor-pointer">
-            S
-          </div>
-
-          <div className="w-14 h-14 flex items-center justify-center rounded-xl border border-[#d8c8bf] bg-white hover:bg-[#11231e] hover:text-white hover:border-[#11231e] transition cursor-pointer">
-            M
-          </div>
-
-          <div className="w-14 h-14 flex items-center justify-center rounded-xl border border-[#d8c8bf] bg-white hover:bg-[#11231e] hover:text-white hover:border-[#11231e] transition cursor-pointer">
-            L
-          </div>
-
-          <div className="w-14 h-14 flex items-center justify-center rounded-xl border border-[#d8c8bf] bg-white hover:bg-[#11231e] hover:text-white hover:border-[#11231e] transition cursor-pointer">
-            XL
-          </div>
-
-          <div className="w-14 h-14 flex items-center justify-center rounded-xl border border-[#d8c8bf] bg-white hover:bg-[#11231e] hover:text-white hover:border-[#11231e] transition cursor-pointer">
-            XXL
-          </div>
+          {["S", "M", "L", "XL", "XXL"].map((size) => (
+            <div
+              key={size}
+              className="w-14 h-14 flex items-center justify-center rounded-xl border border-[#d8c8bf] bg-white hover:bg-[#11231e] hover:text-white hover:border-[#11231e] transition cursor-pointer"
+            >
+              {size}
+            </div>
+          ))}
         </div>
 
         {/* Add To Cart */}
-        <button onClick={()=>addToCart(product.id)} className="mt-10 w-[300px] h-[60px] rounded-full bg-[#11231e] text-white text-lg font-semibold hover:bg-[#1b3a33] transition duration-300 shadow-lg">
+        <button
+          onClick={() => addToCart(product.id)}
+          className="mt-10 w-[300px] h-[60px] rounded-full bg-[#11231e] text-white text-lg font-semibold hover:bg-[#1b3a33] transition duration-300 shadow-lg"
+        >
           ADD TO CART
+        </button>
+
+        {/* Wishlist Button */}
+        <button
+          onClick={() => toggleWishlist(product.id)}
+          className={`mt-4 w-[300px] h-[55px] rounded-full flex items-center justify-center gap-2 text-lg font-semibold transition duration-300 shadow-sm
+          ${
+            wishlistItems[product.id]
+              ? "bg-red-500 text-white hover:bg-red-600"
+              : "border-2 border-red-400 text-red-500 bg-white hover:bg-red-500 hover:text-white"
+          }`}
+        >
+          <Heart
+            size={20}
+            fill={wishlistItems[product.id] ? "white" : "none"}
+          />
+          {wishlistItems[product.id]
+            ? "Wishlisted"
+            : "Add to Wishlist"}
         </button>
 
         {/* Category & Tags */}

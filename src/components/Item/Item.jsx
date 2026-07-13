@@ -1,9 +1,26 @@
 import { Link } from "react-router-dom";
 import React from 'react'
+import { Heart } from "lucide-react";
+import { useContext } from "react";
+import { ShopContext } from "../../Context/ShopContext";
 
 const Item = (props) => {
+  const { wishlistItems, toggleWishlist } = useContext(ShopContext);
   return (
-    <div className="group cursor-pointer transition-all duration-300 hover:-translate-y-2">
+    <div className="relative group cursor-pointer transition-all duration-300 hover:-translate-y-2">
+      {/* ----------------- wishlist --------------------- */}
+      <div className="absolute top-3 right-3 z-10 bg-white p-2 rounded-full shadow-md"
+        onClick={(e) => {
+        e.preventDefault();
+        toggleWishlist(props.id);
+        }}
+        >
+        <Heart size={20}
+          fill={wishlistItems[props.id] ? "#ef4444" : "none"}
+          color={wishlistItems[props.id] ? "#ef4444" : "#11231e"}
+        />
+      </div>
+      {/* --------------- product image ----------------------------------------------- */}
       <Link to={`/product/${props.id}`}><img  onClick={() => window.scrollTo(0, 0)}
         src={props.image}
         alt={props.name}
