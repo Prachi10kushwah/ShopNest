@@ -20,11 +20,39 @@ export const ShopContext = createContext(null)
     };
 
     const ShopContextProvider = (props) => {
-    const [cartItems, setCartItems] = useState(getDefaultCart()) 
-    const [wishlistItems, setWishlistItems] = useState(getDefaultWishlist());   
+    const [cartItems, setCartItems] = useState(() => {
+        const savedCart = localStorage.getItem("cartItems");
+        return savedCart ? JSON.parse(savedCart) : getDefaultCart();
+    });
+    const [wishlistItems, setWishlistItems] = useState(() => {
+        const savedWishlist = localStorage.getItem("wishlistItems");
+        return savedWishlist ? JSON.parse(savedWishlist) : getDefaultWishlist();
+    });   
     const [search, setSearch] = useState("");
     const [sortOption, setSortOption] = useState("all");
 
+    useEffect(() => {
+        localStorage.setItem(
+            "cartItems",
+            JSON.stringify(cartItems)
+        );
+    }, [cartItems]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "wishlistItems",
+            JSON.stringify(wishlistItems)
+        );
+    }, [wishlistItems]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "wishlistItems",
+            JSON.stringify(wishlistItems)
+        );
+    }, [wishlistItems]);
+
+    
     const addToCart = (itemId) =>{
         setCartItems((prev)=>({...prev,[itemId]: prev[itemId]+1}))
     }
