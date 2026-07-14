@@ -52,7 +52,7 @@ export const ShopContext = createContext(null)
         );
     }, [wishlistItems]);
 
-    
+
     const addToCart = (itemId) =>{
         setCartItems((prev)=>({...prev,[itemId]: prev[itemId]+1}))
     }
@@ -62,9 +62,28 @@ export const ShopContext = createContext(null)
     const toggleWishlist = (itemId) => {
         setWishlistItems((prev) => ({...prev,[itemId]: !prev[itemId],}));
     }
+// Quantity increase and decrease ----------------------------------
+    const increaseQuantity = (itemId) => {
+        setCartItems((prev) => ({
+            ...prev,
+            [itemId]: prev[itemId] + 1,
+        }));
+        };
+
+        const decreaseQuantity = (itemId) => {
+        if (cartItems[itemId] > 1) {
+            setCartItems((prev) => ({
+            ...prev,
+            [itemId]: prev[itemId] - 1,
+            }));
+        } else {
+            removeFromCart(itemId);
+        }
+    };
+
     const contextvalue = {
-        all_product
-        ,cartItems,
+        all_product,
+        cartItems,
         addToCart,
         removeFromCart,
         wishlistItems,
@@ -73,6 +92,8 @@ export const ShopContext = createContext(null)
         setSearch,
         sortOption,
         setSortOption,
+        increaseQuantity,
+        decreaseQuantity,
     }
     
     return(

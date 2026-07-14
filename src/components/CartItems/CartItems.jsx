@@ -3,8 +3,13 @@ import { ShopContext } from "../../Context/ShopContext";
 import { Trash2 } from "lucide-react";
 
 const CartItems = () => {
-  const { all_product, cartItems, removeFromCart } =
-    useContext(ShopContext);
+  const {
+    all_product,
+    cartItems,
+    removeFromCart,
+    increaseQuantity,
+    decreaseQuantity,
+  } = useContext(ShopContext);
  
 const subtotal = all_product.reduce((total, item) => {
   return total + item.new_price * cartItems[item.id];
@@ -59,9 +64,27 @@ const subtotal = all_product.reduce((total, item) => {
                 </p>
 
                 {/* Quantity */}
-                <button className="w-14 h-14 rounded-xl border border-[#d8c8bf] bg-[#FDECE2] font-semibold text-lg hover:border-[#11231e] transition">
-                  {cartItems[e.id]}
-                </button>
+                <div className="flex items-center gap-3">
+
+                  <button
+                    onClick={() => decreaseQuantity(e.id)}
+                    className="w-9 h-9 rounded-lg bg-[#FDECE2] border border-[#d8c8bf] hover:bg-[#ead8cc]"
+                  >
+                    -
+                  </button>
+
+                  <span className="font-semibold text-lg w-6 text-center">
+                    {cartItems[e.id]}
+                  </span>
+
+                  <button
+                    onClick={() => increaseQuantity(e.id)}
+                    className="w-9 h-9 rounded-lg bg-[#11231e] text-white hover:bg-[#1b3a33]"
+                  >
+                    +
+                  </button>
+
+                </div>
 
                 {/* Total */}
                 <p className="text-xl font-bold text-[#11231e]">
