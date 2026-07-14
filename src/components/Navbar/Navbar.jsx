@@ -19,6 +19,13 @@ const Navbar = () => {
   const [menu, setMenu] = useState("shop")
 
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const handleLogout = () => {
+      localStorage.removeItem("isLoggedIn");
+
+      alert("Logged Out Successfully!");
+
+      window.location.reload();
+    };
 
   const user = JSON.parse(localStorage.getItem("shopnestUser"));
   return (
@@ -113,9 +120,32 @@ const Navbar = () => {
 
         </Link>
         {/*---------------------------- User -------------------------------------------------*/}
-      <Link to="/user">
-      <CircleUserRound size={28} className='flex items-center justify-center rounded-full text-[#11231e]'/>
-      </Link>
+        <div className="relative group">
+        <CircleUserRound
+          size={28}
+          className="cursor-pointer text-[#11231e]"
+        />
+
+        {isLoggedIn && (
+          <div className="absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg border border-[#ead8cc] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+
+            <Link
+              to="/user"
+              className="block px-4 py-3 hover:bg-[#FDECE2] text-[#11231e]"
+            >
+              My Profile
+            </Link>
+
+            <button
+              onClick={handleLogout}
+              className="w-full text-left px-4 py-3 hover:bg-[#FDECE2] text-red-500"
+            >
+              Logout
+            </button>
+
+          </div>
+        )}
+      </div>
       </div>
     </div>
   )
