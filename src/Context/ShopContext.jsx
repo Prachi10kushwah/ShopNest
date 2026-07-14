@@ -97,7 +97,12 @@ export const ShopContext = createContext(null)
             }
 
             return totalAmount;
-            };
+        };
+
+        const clearCart = () => {
+            setCartItems(getDefaultCart());
+        };
+
 
     const contextvalue = {
         all_product,
@@ -113,6 +118,7 @@ export const ShopContext = createContext(null)
         increaseQuantity,
         decreaseQuantity,
         getTotalCartAmount,
+        clearCart,
     }
     
     return(

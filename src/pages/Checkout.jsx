@@ -1,8 +1,28 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
 
 const Checkout = () => {
-  const { getTotalCartAmount } = useContext(ShopContext);
+  const navigate = useNavigate();
+
+  const {
+    getTotalCartAmount,
+    clearCart,
+  } = useContext(ShopContext);
+
+    const handlePlaceOrder = () => {
+      if (getTotalCartAmount() === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+
+      clearCart();
+
+      alert("Order placed successfully!");
+
+      navigate("/");
+    };
+
   return (
     <div className="min-h-screen bg-[#FDECE2] py-16">
       <div className="max-w-7xl mx-auto px-6">
@@ -75,7 +95,10 @@ const Checkout = () => {
                 <span>${getTotalCartAmount()}</span>
               </div>
 
-              <button className="mt-8 w-full h-14 rounded-full bg-[#11231e] text-white text-lg font-semibold hover:bg-[#1b3a33]">
+              <button
+                onClick={handlePlaceOrder}
+                className="mt-8 w-full h-14 rounded-full bg-[#11231e] text-white text-lg font-semibold hover:bg-[#1b3a33]"
+              >
                 Place Order
               </button>
 
