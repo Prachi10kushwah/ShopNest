@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import borderImg from "../Assets/border.png";
 import Item from "../Item/Item";
 import newData_product from "../Assets/newData";
+import { ShopContext } from "../../Context/ShopContext";
 
 const NewArrivals = () => {
+  const { search } = useContext(ShopContext);
   return (
     <div
       className="flex flex-col items-center py-5 bg-no-repeat bg-center"
@@ -24,7 +26,11 @@ const NewArrivals = () => {
       <hr className="w-[150px] h-[3px] rounded-[10px] bg-[#252525]" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-4 gap-6 mt-[30px]">
-        {newData_product.map((item, i) => (
+        {newData_product
+        .filter((item) =>
+          item.name.toLowerCase().includes(search.toLowerCase())
+        )
+        .map((item, i) => (
           <Item
             key={item.id}
             id={item.id}

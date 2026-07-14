@@ -5,9 +5,10 @@ import { CircleUserRound } from 'lucide-react';
 import { Link } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 import { Heart } from "lucide-react";
+import { Search, X } from "lucide-react";
 
 const Navbar = () => {
-  const { cartItems, wishlistItems } = useContext(ShopContext);
+  const { cartItems, wishlistItems, search, setSearch } = useContext(ShopContext);
 
   const cartCount = Object.values(cartItems).reduce(
     (sum, qty) => sum + qty,
@@ -49,6 +50,30 @@ const Navbar = () => {
     <hr className="border-0 w-4/5 h-[3px] rounded-full bg-gray-500 mx-auto mt-1" />
   )}</li>
       </ul>
+
+      {/*-------------------------- Search bar -------------------------------------------*/}
+      <div className="relative w-[320px]">
+        <Search
+          size={18}
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+        />
+
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full h-11 rounded-full border border-[#d7c8bf] bg-white pl-11 pr-10 text-[#11231e] outline-none focus:border-[#11231e] transition"
+        />
+
+        {search && (
+          <X
+            size={18}
+            onClick={() => setSearch("")}
+            className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-red-500"
+          />
+        )}
+      </div>
 
       <div className='flex items-center gap-10'>
         {/*---------------------------------Button ---------------------------------------- */}

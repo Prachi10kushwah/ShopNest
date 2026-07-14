@@ -21,8 +21,9 @@ export const ShopContext = createContext(null)
 
     const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState(getDefaultCart()) 
-    const [wishlistItems, setWishlistItems] = useState({});   
-    
+    const [wishlistItems, setWishlistItems] = useState(getDefaultWishlist());   
+    const [search, setSearch] = useState("");
+    const [sortOption, setSortOption] = useState("all");
 
     const addToCart = (itemId) =>{
         setCartItems((prev)=>({...prev,[itemId]: prev[itemId]+1}))
@@ -33,7 +34,18 @@ export const ShopContext = createContext(null)
     const toggleWishlist = (itemId) => {
         setWishlistItems((prev) => ({...prev,[itemId]: !prev[itemId],}));
     }
-    const contextvalue = {all_product,cartItems,addToCart,removeFromCart,wishlistItems,toggleWishlist,}
+    const contextvalue = {
+        all_product
+        ,cartItems,
+        addToCart,
+        removeFromCart,
+        wishlistItems,
+        toggleWishlist,
+        search,
+        setSearch,
+        sortOption,
+        setSortOption,
+    }
     
     return(
         <ShopContext.Provider value={contextvalue}>

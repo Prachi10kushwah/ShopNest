@@ -59,6 +59,7 @@ let all_product =[
         image: ap1_img,
         new_price: 23,
         old_price: 56,
+        isNew: true,
     },
     {
         id: 2,
@@ -67,6 +68,7 @@ let all_product =[
         image: ap2_img,
         new_price: 67,
         old_price: 86,
+        isNew: false,
     },
     {
         id: 3,
@@ -75,6 +77,7 @@ let all_product =[
         image: ap3_img,
         new_price: 67,
         old_price: 70,
+        isNew: false,
     },
     {
         id: 4,
@@ -83,6 +86,7 @@ let all_product =[
         image: ap4_img,
         new_price: 24.99,
         old_price: 34.99,
+        isNew: true,
     },
     {
         id: 5,
@@ -91,6 +95,7 @@ let all_product =[
         image: ap5_img,
         new_price: 50,
         old_price: 61,
+        isNew: false,
     },
     {
         id: 6,
@@ -99,6 +104,7 @@ let all_product =[
         image: ap6_img,
         new_price: 61,
         old_price: 65,
+        isNew: true,
     },
     {
         id: 7,
@@ -107,6 +113,7 @@ let all_product =[
         image: ap7_img,
         new_price: 40,
         old_price: 61,
+        isNew: false,
     },
     {
         id: 8,
@@ -115,6 +122,7 @@ let all_product =[
         image: ap8_img,
         new_price: 45.99,
         old_price: 57.99,
+        isNew: true,
     },
     {
         id: 9,
@@ -123,6 +131,7 @@ let all_product =[
         image: ap9_img,
         new_price: 54,
         old_price: 67,
+        isNew: true,
     },
     {
         id: 10,
@@ -131,6 +140,7 @@ let all_product =[
         image: ap10_img,
         new_price: 63,
         old_price: 75,
+        isNew: true,
     },
     // ------------ womens -----------------------------
     {
@@ -140,6 +150,7 @@ let all_product =[
         image: ap11_img,
         new_price: 65,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 12,
@@ -148,6 +159,7 @@ let all_product =[
         image: ap12_img,
         new_price: 74.99,
         old_price: 99.99,
+        isNew: true,
     },
     {
         id: 13,
@@ -156,6 +168,7 @@ let all_product =[
         image: ap13_img,
         new_price: 129.99,
         old_price: 169.99,
+        isNew: true,
     },
     {
         id: 14,
@@ -164,6 +177,7 @@ let all_product =[
         image: ap14_img,
         new_price: 49.99,
         old_price: 68.99,
+        isNew: false,
     },
     {
         id: 15,
@@ -172,6 +186,7 @@ let all_product =[
         image: ap15_img,
         new_price: 65,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 16,
@@ -180,6 +195,7 @@ let all_product =[
         image: ap16_img,
         new_price: 59,
         old_price: 68,
+        isNew: false,
     },
     {
         id: 17,
@@ -188,6 +204,7 @@ let all_product =[
         image: ap17_img,
         new_price: 69.99,
         old_price: 94.99,
+        isNew: true,
     },
     {
         id: 18,
@@ -196,6 +213,7 @@ let all_product =[
         image: ap18_img,
         new_price: 49,
         old_price: 68,
+        isNew: true,
     },
     {
         id: 19,
@@ -204,6 +222,7 @@ let all_product =[
         image: ap19_img,
         new_price: 65,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 20,
@@ -212,6 +231,7 @@ let all_product =[
         image: ap20_img,
         new_price: 59,
         old_price: 68,
+        isNew: false,
     },
     // ------------------------ kids ----------------------------------
     {
@@ -221,6 +241,7 @@ let all_product =[
         image: ap21_img,
         new_price: 39.99,
         old_price: 59.99,
+        isNew: true,
     },
     {
         id: 22,
@@ -229,6 +250,7 @@ let all_product =[
         image: ap22_img,
         new_price: 49,
         old_price: 68,
+        isNew: false,
     },
     {
         id: 23,
@@ -237,6 +259,7 @@ let all_product =[
         image: ap23_img,
         new_price: 65,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 24,
@@ -245,6 +268,7 @@ let all_product =[
         image: ap24_img,
         new_price: 59.99,
         old_price: 79.99,
+        isNew: true,
     },
     {
         id: 25,
@@ -253,6 +277,7 @@ let all_product =[
         image: ap25_img,
         new_price: 61,
         old_price: 69,
+        isNew: false,
     },
     {
         id: 26,
@@ -261,6 +286,7 @@ let all_product =[
         image: ap26_img,
         new_price: 49.99,
         old_price: 68,
+        isNew: true,
     },
     {
         id: 27,
@@ -269,6 +295,7 @@ let all_product =[
         image: ap27_img,
         new_price: 65,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 28,
@@ -277,6 +304,7 @@ let all_product =[
         image: ap28_img,
         new_price: 59,
         old_price: 68,
+        isNew: false,
     },
     {
         id: 29,
@@ -285,6 +313,7 @@ let all_product =[
         image: ap29_img,
         new_price: 61,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 30,
@@ -293,6 +322,7 @@ let all_product =[
         image: ap30_img,
         new_price: 49,
         old_price: 68,
+        isNew: true,
     },
     // -------------------- watches -------------------
     {
@@ -302,6 +332,7 @@ let all_product =[
         image: ap31_img,
         new_price: 65,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 32,
@@ -310,6 +341,7 @@ let all_product =[
         image: ap32_img,
         new_price: 59,
         old_price: 68,
+        isNew: true,
     },
     {
         id: 33,
@@ -318,6 +350,7 @@ let all_product =[
         image: ap33_img,
         new_price: 61,
         old_price: 69,
+        isNew: false,
     },
     {
         id: 34,
@@ -326,6 +359,7 @@ let all_product =[
         image: ap34_img,
         new_price: 49,
         old_price: 68,
+        isNew: true,
     },
     {
         id: 35,
@@ -334,6 +368,7 @@ let all_product =[
         image: ap35_img,
         new_price: 65,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 36,
@@ -342,6 +377,7 @@ let all_product =[
         image: ap36_img,
         new_price: 59,
         old_price: 68,
+        isNew: true,
     },
     {
         id: 37,
@@ -350,6 +386,7 @@ let all_product =[
         image: ap37_img,
         new_price: 61,
         old_price: 69,
+        isNew: false,
     },
     {
         id: 38,
@@ -358,6 +395,7 @@ let all_product =[
         image: ap38_img,
         new_price: 49,
         old_price: 68,
+        isNew: false,
     },
     {
         id: 39,
@@ -366,6 +404,7 @@ let all_product =[
         image: ap39_img,
         new_price: 65,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 40,
@@ -374,6 +413,7 @@ let all_product =[
         image: ap40_img,
         new_price: 59,
         old_price: 68,
+        isNew: true,
     },
     // ------------- bags -----------------------------------
     {
@@ -383,6 +423,7 @@ let all_product =[
         image: ap41_img,
         new_price: 61,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 42,
@@ -391,6 +432,7 @@ let all_product =[
         image: ap42_img,
         new_price: 49,
         old_price: 68,
+        isNew: true,
     },
     {
         id: 43,
@@ -399,6 +441,7 @@ let all_product =[
         image: ap43_img,
         new_price: 61,
         old_price: 69,
+        isNew: false,
     },
     {
         id: 44,
@@ -407,6 +450,7 @@ let all_product =[
         image: ap44_img,
         new_price: 49,
         old_price: 68,
+        isNew: true,
     },
     {
         id: 45,
@@ -415,6 +459,7 @@ let all_product =[
         image: ap45_img,
         new_price: 61,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 46,
@@ -423,6 +468,7 @@ let all_product =[
         image: ap46_img,
         new_price: 49,
         old_price: 68,
+        isNew: false,
     },
     {
         id: 47,
@@ -431,6 +477,7 @@ let all_product =[
         image: ap47_img,
         new_price: 61,
         old_price: 69,
+        isNew: true,
     },
     {
         id: 48,
@@ -439,6 +486,7 @@ let all_product =[
         image: ap48_img,
         new_price: 119.90,
         old_price: 150,
+        isNew: true,
     },
     {
         id: 49,
@@ -447,6 +495,7 @@ let all_product =[
         image: ap49_img,
         new_price: 61,
         old_price: 69,
+        isNew: false,
     },
     {
         id: 50,
@@ -455,6 +504,7 @@ let all_product =[
         image: ap50_img,
         new_price: 49,
         old_price: 68,
+        isNew: true,
     },
 ]
 export default all_product;

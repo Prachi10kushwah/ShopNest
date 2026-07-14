@@ -2,8 +2,11 @@ import React from 'react'
 import data_product from '../Assets/data'
 import Item from '../Item/Item'
 import borderImg from "../Assets/border.png"
+import { useContext } from "react";
+import { ShopContext } from "../../Context/ShopContext";
 
 const Popular = () => {
+  const { search } = useContext(ShopContext);
   return (
     <div
   className="flex flex-col items-center py-5 bg-no-repeat bg-center"
@@ -22,7 +25,10 @@ const Popular = () => {
       <hr className="w-[150px] h-[3px] rounded-[10px] bg-[#252525]" />
 
     <div className="max-w-7xl mx-auto grid grid-cols-4 gap-6 mt-[30px]">
-        {data_product.map((item, i) => (
+        {data_product
+        .filter((item) =>
+          item.name.toLowerCase().includes(search.toLowerCase())
+        ).map((item, i) => (
           <Item
             key={item.id}
             id={item.id}
