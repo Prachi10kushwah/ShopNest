@@ -11,7 +11,7 @@ import Hero from './components/Hero/Hero';
 import Footer from './components/Footer/Footer';
 import { useLocation } from "react-router-dom";
 import Wishlist from './pages/Wishlist';
-
+import Checkout from "./pages/Checkout";
 
 const App = () => {
   const location = useLocation();
@@ -41,6 +41,8 @@ const App = () => {
 
         {/*------------------------------------ Route for User -------------------------------------*/}
         <Route path='/user' element={<User/>}/>
+        {/* ----------------------------------- checkout --------------------------------------------------- */}
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
       {location.pathname !== "/login" && <Footer />}
   

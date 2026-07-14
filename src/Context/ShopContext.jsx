@@ -4,19 +4,24 @@ import { useEffect } from "react";
 
 
 export const ShopContext = createContext(null)
-    const getDefaultCart = () =>{
-        let cart = {};
-        for (let index = 0; index <= all_product.length; index++){
-            cart[index] = 0
-        }
-        return cart
-    }
+    const getDefaultCart = () => {
+    let cart = {};
+
+    all_product.forEach((product) => {
+        cart[product.id] = 0;
+    });
+
+    return cart;
+    };
+
     const getDefaultWishlist = () => {
-        let wishlist = {};
-        for (let index = 0; index <= all_product.length; index++) {
-            wishlist[index] = false;
-        }
-        return wishlist;
+    let wishlist = {};
+
+    all_product.forEach((product) => {
+        wishlist[product.id] = false;
+    });
+
+    return wishlist;
     };
 
     const ShopContextProvider = (props) => {
@@ -45,20 +50,16 @@ export const ShopContext = createContext(null)
         );
     }, [wishlistItems]);
 
-    useEffect(() => {
-        localStorage.setItem(
-            "wishlistItems",
-            JSON.stringify(wishlistItems)
-        );
-    }, [wishlistItems]);
-
 
     const addToCart = (itemId) =>{
         setCartItems((prev)=>({...prev,[itemId]: prev[itemId]+1}))
     }
-    const removeFromCart = (itemId) =>{
-        setCartItems((prev)=>({...prev,[itemId]: prev[itemId]-1}))
-    }
+    const removeFromCart = (itemId) => {
+        setCartItems((prev) => ({
+            ...prev,
+            [itemId]: 0,
+        }));
+        };
     const toggleWishlist = (itemId) => {
         setWishlistItems((prev) => ({...prev,[itemId]: !prev[itemId],}));
     }
@@ -79,7 +80,24 @@ export const ShopContext = createContext(null)
         } else {
             removeFromCart(itemId);
         }
-    };
+    }
+        const getTotalCartAmount = () => {
+            let totalAmount = 0;
+
+            for (const item in cartItems) {
+                if (cartItems[item] > 0) {
+                let product = all_product.find(
+                    (product) => product.id === Number(item)
+                );
+
+                if (product) {
+                    totalAmount += product.new_price * cartItems[item];
+                }
+                }
+            }
+
+            return totalAmount;
+            };
 
     const contextvalue = {
         all_product,
@@ -94,6 +112,7 @@ export const ShopContext = createContext(null)
         setSortOption,
         increaseQuantity,
         decreaseQuantity,
+        getTotalCartAmount,
     }
     
     return(

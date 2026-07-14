@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import { Trash2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CartItems = () => {
   const {
@@ -137,9 +138,11 @@ const subtotal = all_product.reduce((total, item) => {
         </span>
       </div>
 
-      <button className="mt-8 w-full h-14 rounded-xl bg-[#11231e] text-white font-semibold text-lg hover:bg-[#1b3a33] transition">
-        PROCEED TO CHECKOUT
-      </button>
+      <Link to="/checkout">
+        <button className="w-full h-14 rounded-full bg-[#11231e] text-white">
+          PROCEED TO CHECKOUT
+        </button>
+      </Link>
 
     </div>
   </div>
