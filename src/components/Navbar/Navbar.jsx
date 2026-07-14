@@ -17,6 +17,10 @@ const Navbar = () => {
   const wishlistCount = Object.values(wishlistItems).filter(Boolean).length;
 
   const [menu, setMenu] = useState("shop")
+
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+  const user = JSON.parse(localStorage.getItem("shopnestUser"));
   return (
     //--------------------------- Logo -------------------------
     <div className="flex items-center justify-between px-8 py-4 shadow  bg-[#FDECE2]">
@@ -76,10 +80,18 @@ const Navbar = () => {
       </div>
 
       <div className='flex items-center gap-10'>
-        {/*---------------------------------Button ---------------------------------------- */}
-        <Link to="/login"><button className="border px-3 py-1 rounded-lg font-['Poppins'] cursor-pointer hover:shadow-lg active:scale-95 transition-all duration-200 text-[#11231e]">
-          Login
-        </button></Link>
+        {/*---------------------------------login Button ---------------------------------------- */}
+        {isLoggedIn ? (
+          <div className="font-medium text-[#11231e]">
+            Hi, {user?.name}
+          </div>
+        ) : (
+          <Link to="/login">
+            <button className="border px-3 py-1 rounded-lg font-['Poppins'] cursor-pointer hover:shadow-lg active:scale-95 transition-all duration-200 text-[#11231e]">
+              Login
+            </button>
+          </Link>
+        )}
         {/* -------------------------------- wishlist ------------------------------------------- */}
         <Link to="/wishlist" className="relative">
           <Heart size={28} className="text-[#11231e]" />
