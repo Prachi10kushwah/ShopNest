@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import { Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const CartItems = () => {
   const {
@@ -97,7 +98,10 @@ const subtotal = all_product.reduce((total, item) => {
                   <Trash2
                     size={22}
                     className="text-red-500 cursor-pointer hover:text-red-700 hover:scale-125 transition-all duration-300"
-                    onClick={() => removeFromCart(e.id)}
+                    onClick={() => {
+                      removeFromCart(e.id)
+                      toast.success("Product removed")
+                    }}
                   />
                 </div>
               </div>

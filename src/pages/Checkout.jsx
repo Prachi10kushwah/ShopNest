@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
+import toast from "react-hot-toast";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -12,13 +13,13 @@ const Checkout = () => {
 
     const handlePlaceOrder = () => {
       if (getTotalCartAmount() === 0) {
-        alert("Your cart is empty!");
+        toast.error("Your cart is empty!");
         return;
       }
 
       clearCart();
 
-      alert("Order placed successfully!");
+      toast.success("Order placed successfully!");
 
       navigate("/");
     };

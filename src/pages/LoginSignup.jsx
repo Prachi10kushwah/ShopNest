@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const LoginSignup = () => {
   const navigate = useNavigate();
@@ -23,13 +24,13 @@ const LoginSignup = () => {
       !formData.email ||
       !formData.password
     ) {
-      alert("Please fill all fields.");
+      toast.error("Please fill all fields.");
       return;
     }
 
     localStorage.setItem("shopnestUser", JSON.stringify(formData));
     localStorage.setItem("isLoggedIn", "true");
-    alert("Account Created Successfully!");
+    toast.success("Account Created Successfully!");
     navigate("/");
     
     setFormData({
@@ -42,7 +43,7 @@ const LoginSignup = () => {
   const savedUser = JSON.parse(localStorage.getItem("shopnestUser"));
 
   if (!savedUser) {
-    alert("No account found. Please create an account first.");
+    toast.error("No account found. Please create an account first.");
     return;
   }
 
@@ -52,11 +53,11 @@ const LoginSignup = () => {
   ) {
     localStorage.setItem("isLoggedIn", "true");
 
-    alert(`Welcome back, ${savedUser.name}!`);
+    toast.success(`Welcome back, ${savedUser.name}!`);
 
     navigate("/");
   } else {
-    alert("Invalid Email or Password");
+    toast.error("Invalid Email or Password");
   }
 };
 

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 import { Heart } from "lucide-react";
 import { Search, X } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { cartItems, wishlistItems, search, setSearch } = useContext(ShopContext);
@@ -22,7 +23,7 @@ const Navbar = () => {
     const handleLogout = () => {
       localStorage.removeItem("isLoggedIn");
 
-      alert("Logged Out Successfully!");
+      toast.success("Logged Out Successfully!");
 
       window.location.reload();
     };

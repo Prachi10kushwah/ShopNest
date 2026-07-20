@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Star, Heart } from "lucide-react";
 import { ShopContext } from "../../Context/ShopContext";
+import toast from "react-hot-toast";
 
 const ProductDisplay = ({ product }) => {
   const {
@@ -102,7 +103,10 @@ const ProductDisplay = ({ product }) => {
 
         {/* Add To Cart */}
         <button
-          onClick={() => addToCart(product.id)}
+          onClick={() => {
+            addToCart(product.id)
+            toast.sucess("Added to cart")
+          }}
           className="mt-10 w-[300px] h-[60px] rounded-full bg-[#11231e] text-white text-lg font-semibold hover:bg-[#1b3a33] transition duration-300 shadow-lg"
         >
           ADD TO CART
@@ -110,7 +114,15 @@ const ProductDisplay = ({ product }) => {
 
         {/* Wishlist Button */}
         <button
-          onClick={() => toggleWishlist(product.id)}
+          onClick={() => {
+            toggleWishlist(product.id)
+
+            if(wishlistItems[product.id]){
+              toast("Remove from wishlist");
+            }else{
+              toast.success("Added to wishlist")
+            }
+          }}
           className={`mt-4 w-[300px] h-[55px] rounded-full flex items-center justify-center gap-2 text-lg font-semibold transition duration-300 shadow-sm
           ${
             wishlistItems[product.id]
