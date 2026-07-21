@@ -3,6 +3,7 @@ import { ShopContext } from "../../Context/ShopContext";
 import { Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { ShoppingBag } from "lucide-react";
 
 const CartItems = () => {
   const {
@@ -16,6 +17,33 @@ const CartItems = () => {
 const subtotal = all_product.reduce((total, item) => {
   return total + item.new_price * cartItems[item.id];
 }, 0);    
+    // Empty Cart
+if (Object.values(cartItems).every((qty) => qty === 0)) {
+  return (
+    <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-6">
+
+      <ShoppingBag
+        size={90}
+        className="text-[#11231e] mb-6"
+      />
+
+      <h1 className="text-5xl font-bold font-['Cormorant_Garamond'] text-[#11231e]">
+        Your Cart is Empty
+      </h1>
+
+      <p className="mt-4 text-[#666] max-w-md leading-7 text-lg">
+        Looks like you haven't added any products to your cart yet.
+      </p>
+
+      <Link to="/">
+        <button className="mt-8 px-8 py-4 rounded-full bg-[#11231e] text-white hover:bg-[#1b3a33] transition duration-300">
+          Continue Shopping
+        </button>
+      </Link>
+
+    </div>
+  );
+}
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-16">
