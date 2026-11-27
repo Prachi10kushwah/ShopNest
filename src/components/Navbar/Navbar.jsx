@@ -20,6 +20,7 @@ const Navbar = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [navHeartBounce, setNavHeartBounce] = useState(false);
+  const [navCartBounce, setNavCartBounce] = useState(false);
 
   useEffect(() => {
     const handleBurst = () => {
@@ -29,9 +30,19 @@ const Navbar = () => {
       }, 900);
     };
 
+    const handleCartBurst = () => {
+      setNavCartBounce(true);
+      setTimeout(() => {
+        setNavCartBounce(false);
+      }, 750);
+    };
+
     window.addEventListener("wishlist-burst-event", handleBurst);
-    return () =>
+    window.addEventListener("cart-burst-event", handleCartBurst);
+    return () => {
       window.removeEventListener("wishlist-burst-event", handleBurst);
+      window.removeEventListener("cart-burst-event", handleCartBurst);
+    };
   }, []);
 
   const cartCount = Object.values(cartItems).reduce((sum, qty) => sum + qty, 0);
@@ -168,12 +179,24 @@ const Navbar = () => {
           {/* Cart */}
           <Link
             to="/cart"
-            className="relative p-1.5 rounded-full hover:bg-[#FAF6F3] transition cursor-pointer"
+            id="nav-cart-btn"
+            className={`relative p-1.5 rounded-full hover:bg-[#FAF6F3] transition cursor-pointer select-none ${
+              navCartBounce ? "animate-nav-cart-bounce text-emerald-800" : ""
+            }`}
             title="Cart"
           >
-            <ShoppingCart size={24} className="text-[#11231e]" />
+            <ShoppingCart
+              size={24}
+              className={`transition-colors duration-200 ${
+                navCartBounce ? "text-emerald-700" : "text-[#11231e]"
+              }`}
+            />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 rounded-full bg-red-600 text-white text-xs font-bold animate-in zoom-in duration-200">
+              <span
+                className={`absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 rounded-full bg-red-600 text-white text-xs font-bold transition-transform duration-200 ${
+                  navCartBounce ? "scale-125" : ""
+                }`}
+              >
                 {cartCount}
               </span>
             )}

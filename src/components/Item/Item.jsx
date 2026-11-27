@@ -57,9 +57,26 @@ const Item = (props) => {
   const handleQuickAdd = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    // 1. Calculate origin coordinates for parabolic arc flight
+    const btnRect = e.currentTarget.getBoundingClientRect();
+    const startX = btnRect.left + btnRect.width / 2;
+    const startY = btnRect.top + btnRect.height / 2;
+
     addToCart(props.id);
     setIsCartSquashing(true);
-    window.dispatchEvent(new CustomEvent("cart-burst-event"));
+
+    // 2. Dispatch Moving in Arcs event with product image & position
+    window.dispatchEvent(
+      new CustomEvent("product-arc-event", {
+        detail: {
+          image: props.image,
+          name: props.name,
+          startX,
+          startY,
+        },
+      })
+    );
 
     toast.success(`Added ${props.name} to cart!`, { icon: "🛍️" });
 
@@ -69,7 +86,11 @@ const Item = (props) => {
   };
 
   return (
-    <div className={`relative group transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between ${isCartSquashing ? "animate-card-squash" : ""}`}>
+    <div
+      className={`relative group flex flex-col justify-between ${
+        isCartSquashing ? "animate-card-squash" : "product-arc-hover"
+      }`}
+    >
       {/* ----------------- Wishlist Button with Exaggerated Animation --------------------- */}
       <div className="absolute top-3 right-3 z-20">
         <button

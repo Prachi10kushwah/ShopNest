@@ -33,10 +33,31 @@ const ProductDisplay = ({ product }) => {
 
   const isFavorited = !!wishlistItems[product.id];
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    // 1. Calculate origin coordinates for parabolic arc flight
+    let startX = window.innerWidth / 2;
+    let startY = window.innerHeight / 2;
+
+    if (e && e.currentTarget) {
+      const btnRect = e.currentTarget.getBoundingClientRect();
+      startX = btnRect.left + btnRect.width / 2;
+      startY = btnRect.top + btnRect.height / 2;
+    }
+
     addToCart(product.id);
     setIsCartSquashing(true);
-    window.dispatchEvent(new CustomEvent("cart-burst-event"));
+
+    // 2. Dispatch Moving in Arcs event with current product image & coordinates
+    window.dispatchEvent(
+      new CustomEvent("product-arc-event", {
+        detail: {
+          image: selectedImage || product.image,
+          name: product.name,
+          startX,
+          startY,
+        },
+      })
+    );
 
     toast.success(`Added ${product.name} (${selectedSize}) to cart!`, {
       icon: "🛍️",

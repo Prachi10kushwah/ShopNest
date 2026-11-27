@@ -14,6 +14,7 @@ import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
 import Footer from "./components/Footer/Footer";
+import FlyingArcManager from "./components/FlyingArc/FlyingArcManager";
 
 const App = () => {
   const location = useLocation();
@@ -22,6 +23,9 @@ const App = () => {
 
   return (
     <div className={isAdminRoute ? "min-h-screen bg-gray-50" : "bg-[#FDECE2] min-h-screen flex flex-col justify-between"}>
+      {/* Moving in Arcs Global Overlay */}
+      <FlyingArcManager />
+
       <div>
         {/* Do not show Customer Storefront Navbar on Admin routes */}
         {!isAdminRoute && <Navbar />}

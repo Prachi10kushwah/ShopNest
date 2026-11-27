@@ -191,3 +191,82 @@
 .animate-nav-cart-bounce {
   animation: nav-cart-squash 0.75s cubic-bezier(0.2, 0.9, 0.3, 1.2) forwards;
 }
+
+/* ==============================================================
+   MOVING IN ARCS ANIMATIONS (12 PRINCIPLES: ARCS)
+   ============================================================== */
+
+@keyframes arc-motion-fly {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    /* Rising swiftly upward to the apex peak */
+    transform: translate3d(calc(var(--dx) * 0.22), calc(var(--dy) * 0.15 + var(--apex-y)), 0) scale(1.15) rotate(-14deg);
+    opacity: 1;
+  }
+  55% {
+    /* Gliding through the apex crest */
+    transform: translate3d(calc(var(--dx) * 0.58), calc(var(--dy) * 0.45 + calc(var(--apex-y) * 0.65)), 0) scale(0.9) rotate(14deg);
+    opacity: 0.95;
+  }
+  85% {
+    /* Diving steeply along parabolic trajectory */
+    transform: translate3d(calc(var(--dx) * 0.88), calc(var(--dy) * 0.88 + calc(var(--apex-y) * 0.1)), 0) scale(0.5) rotate(26deg);
+    opacity: 0.9;
+  }
+  100% {
+    /* Plunging cleanly into cart destination */
+    transform: translate3d(var(--dx), var(--dy), 0) scale(0.12) rotate(40deg);
+    opacity: 0;
+  }
+}
+
+.animate-arc-fly {
+  animation: arc-motion-fly 0.85s cubic-bezier(0.2, 0.7, 0.35, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes cart-impact-ring {
+  0% {
+    transform: scale(0.3);
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+.animate-cart-impact {
+  animation: cart-impact-ring 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Organic curved arc motion when hovering on product cards */
+@keyframes product-arc-hover {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  30% {
+    transform: translate(3px, -5px) rotate(1deg);
+  }
+  65% {
+    transform: translate(-2px, -8px) rotate(-0.6deg);
+  }
+  100% {
+    transform: translate(0, -6px) rotate(0deg);
+  }
+}
+
+.product-arc-hover {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.product-arc-hover:hover {
+  animation: product-arc-hover 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
