@@ -1,15 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ShopContext } from "../Context/ShopContext";
-import { Heart, ShoppingCart, UserCircle, LogOut, Package, ArrowRight, XCircle } from "lucide-react";
+import { Heart, ShoppingCart, UserCircle, LogOut, Package, ArrowRight, XCircle, Printer, Edit3 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import InvoiceModal from "../components/Invoice/InvoiceModal";
 import toast from "react-hot-toast";
 
 const User = () => {
-  const { cartItems, wishlistItems, orders, cancelOrder } = useContext(ShopContext);
+  const { cartItems, wishlistItems, orders, cancelOrder, currentUser, updateUserProfile } = useContext(ShopContext);
   const navigate = useNavigate();
 
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const user = JSON.parse(localStorage.getItem("shopnestUser") || "{}");
+  const user = currentUser || JSON.parse(localStorage.getItem("shopnestUser") || "{}");
+
+  const [selectedInvoiceOrder, setSelectedInvoiceOrder] = useState(null);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [profileForm, setProfileForm] = useState({
+    name: user?.name || "",
+    phone: user?.phone || "",
+    address: user?.address || "",
+    city: user?.city || "",
+    postalCode: user?.postalCode || "",
+  });
 
   if (!isLoggedIn) {
     return (
@@ -47,6 +58,12 @@ const User = () => {
     navigate("/");
   };
 
+  const handleSaveProfile = (e) => {
+    e.preventDefault();
+    updateUserProfile(profileForm);
+    setIsEditingProfile(false);
+  };
+
   return (
     <div className="max-w-5xl mx-auto py-12 sm:py-16 px-4 sm:px-6">
       {/* Profile Header Card */}
@@ -58,15 +75,38 @@ const User = () => {
             </div>
 
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#11231e]">
-                {user?.name || "Customer"}
-              </h2>
-              <p className="text-gray-500 text-sm sm:text-base mt-1">
+              <div className="flex items-center gap-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-[#11231e]">
+                  {user?.name || "Customer"}
+                </h2>
+                <button
+                  onClick={() => setIsEditingProfile(!isEditingProfile)}
+                  className="p-1 text-gray-400 hover:text-[#11231e] transition cursor-pointer"
+                  title="Edit Profile"
+                >
+                  <Edit3 size={18} />
+                </button>
+              </div>
+
+              <p className="text-gray-500 text-sm sm:text-base mt-0.5">
                 {user?.email || "No email registered"}
               </p>
-              <span className="inline-block mt-2 text-xs font-semibold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full uppercase tracking-wider">
-                Active Member
-              </span>
+              {user?.phone && (
+                <p className="text-gray-500 text-xs sm:text-sm mt-0.5">
+                  📞 {user.phone}
+                </p>
+              )}
+              {user?.address && (
+                <p className="text-gray-500 text-xs sm:text-sm mt-0.5">
+                  📍 {user.address}, {user.city} ({user.postalCode})
+                </p>
+              )}
+
+              <div className="flex items-center gap-2 mt-2">
+                <span className="inline-block text-xs font-semibold bg-emerald-100 text-emerald-800 px-3 py-0.5 rounded-full uppercase tracking-wider">
+                  Active Member
+                </span>
+              </div>
             </div>
           </div>
 
@@ -78,6 +118,84 @@ const User = () => {
             Logout
           </button>
         </div>
+
+        {/* Edit Profile Form Accordion */}
+        {isEditingProfile && (
+          <form onSubmit={handleSaveProfile} className="mt-6 p-6 bg-[#FAF6F3] rounded-2xl border border-[#ead8cc] space-y-4 animate-in fade-in duration-200">
+            <h3 className="font-bold text-[#11231e] text-lg">Update Profile & Default Shipping</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">Full Name</label>
+                <input
+                  type="text"
+                  value={profileForm.name}
+                  onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                  className="w-full h-11 px-4 rounded-xl border border-gray-300 bg-white text-sm outline-none focus:border-[#11231e]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">Phone Number</label>
+                <input
+                  type="tel"
+                  value={profileForm.phone}
+                  onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+                  placeholder="+91 9876543210"
+                  className="w-full h-11 px-4 rounded-xl border border-gray-300 bg-white text-sm outline-none focus:border-[#11231e]"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-semibold text-gray-600 mb-1">Default Shipping Address</label>
+                <input
+                  type="text"
+                  value={profileForm.address}
+                  onChange={(e) => setProfileForm({ ...profileForm, address: e.target.value })}
+                  placeholder="Street / Apartment / Landmark"
+                  className="w-full h-11 px-4 rounded-xl border border-gray-300 bg-white text-sm outline-none focus:border-[#11231e]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">City</label>
+                <input
+                  type="text"
+                  value={profileForm.city}
+                  onChange={(e) => setProfileForm({ ...profileForm, city: e.target.value })}
+                  placeholder="Indore"
+                  className="w-full h-11 px-4 rounded-xl border border-gray-300 bg-white text-sm outline-none focus:border-[#11231e]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">Postal Code</label>
+                <input
+                  type="text"
+                  value={profileForm.postalCode}
+                  onChange={(e) => setProfileForm({ ...profileForm, postalCode: e.target.value })}
+                  placeholder="452001"
+                  className="w-full h-11 px-4 rounded-xl border border-gray-300 bg-white text-sm outline-none focus:border-[#11231e]"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3 justify-end pt-2">
+              <button
+                type="button"
+                onClick={() => setIsEditingProfile(false)}
+                className="px-5 py-2 rounded-lg border text-sm text-gray-600 hover:bg-gray-100 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-6 py-2 rounded-lg bg-[#11231e] text-white text-sm font-semibold hover:bg-[#1b3a33] cursor-pointer"
+              >
+                Save Details
+              </button>
+            </div>
+          </form>
+        )}
 
         {/* Quick Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
@@ -113,17 +231,21 @@ const User = () => {
             <ArrowRight size={18} className="text-gray-400 group-hover:translate-x-1 transition" />
           </Link>
 
-          <div className="border border-[#ead8cc] rounded-2xl p-5 flex items-center justify-between bg-[#FAF6F3]">
+          <Link
+            to="/track-order"
+            className="border border-[#ead8cc] hover:border-[#11231e] rounded-2xl p-5 flex items-center justify-between transition group bg-[#FAF6F3]"
+          >
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
                 <Package size={24} />
               </div>
               <div>
-                <h4 className="font-semibold text-[#11231e]">Total Orders</h4>
-                <p className="text-gray-500 text-sm">{orders.length} Orders Placed</p>
+                <h4 className="font-semibold text-[#11231e]">Live Tracker</h4>
+                <p className="text-gray-500 text-sm">Track Package Live</p>
               </div>
             </div>
-          </div>
+            <ArrowRight size={18} className="text-gray-400 group-hover:translate-x-1 transition" />
+          </Link>
         </div>
       </div>
 
@@ -182,7 +304,9 @@ const User = () => {
                       className={`inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase ${
                         order.status === "Cancelled"
                           ? "bg-red-100 text-red-700"
-                          : "bg-emerald-100 text-emerald-800"
+                          : order.status === "Delivered"
+                          ? "bg-emerald-100 text-emerald-800"
+                          : "bg-blue-100 text-blue-800"
                       }`}
                     >
                       {order.status}
@@ -219,22 +343,38 @@ const User = () => {
                   <div>
                     <p className="text-xs text-gray-500">Delivering to:</p>
                     <p className="text-gray-800 text-xs sm:text-sm font-medium">
-                      {order.customer.name} - {order.customer.address}, {order.customer.city} ({order.customer.phone})
+                      {order.customer?.name} - {order.customer?.address}, {order.customer?.city} ({order.customer?.phone})
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <span className="text-xs text-gray-500 block">Total Paid:</span>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="text-right mr-2">
+                      <span className="text-xs text-gray-500 block">Total:</span>
                       <strong className="text-lg text-emerald-800 font-bold">
                         ${order.totalAmount.toFixed(2)}
                       </strong>
                     </div>
 
-                    {order.status !== "Cancelled" && (
+                    {/* Invoice Button */}
+                    <button
+                      onClick={() => setSelectedInvoiceOrder(order)}
+                      className="px-3.5 py-2 bg-white border border-[#11231e] text-[#11231e] rounded-lg text-xs font-semibold hover:bg-[#11231e] hover:text-white transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                    >
+                      <Printer size={14} /> Invoice
+                    </button>
+
+                    {/* Track Link */}
+                    <Link
+                      to={`/track-order?id=${order.orderId}`}
+                      className="px-3.5 py-2 bg-[#11231e] text-white rounded-lg text-xs font-semibold hover:bg-[#1b3a33] transition cursor-pointer flex items-center gap-1.5"
+                    >
+                      Track
+                    </Link>
+
+                    {order.status !== "Cancelled" && order.status !== "Delivered" && (
                       <button
                         onClick={() => cancelOrder(order.orderId)}
-                        className="px-4 py-2 border border-red-300 rounded-lg text-xs font-medium text-red-600 hover:bg-red-50 transition cursor-pointer flex items-center gap-1"
+                        className="px-3 py-2 border border-red-300 rounded-lg text-xs font-medium text-red-600 hover:bg-red-50 transition cursor-pointer flex items-center gap-1"
                       >
                         <XCircle size={14} /> Cancel
                       </button>
@@ -246,6 +386,14 @@ const User = () => {
           </div>
         )}
       </div>
+
+      {/* Invoice Modal Mount */}
+      {selectedInvoiceOrder && (
+        <InvoiceModal
+          order={selectedInvoiceOrder}
+          onClose={() => setSelectedInvoiceOrder(null)}
+        />
+      )}
     </div>
   );
 };

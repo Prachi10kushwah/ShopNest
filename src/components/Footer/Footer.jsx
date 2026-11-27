@@ -70,22 +70,19 @@ const Footer = () => {
 
             <ul className="space-y-3 font-['Poppins'] text-[#666] text-sm sm:text-base">
               <li>
-                <Link to="/user" className="hover:text-[#11231e] transition">My Orders</Link>
+                <Link to="/track-order" className="hover:text-[#11231e] transition">Track Live Order</Link>
               </li>
               <li>
-                <Link to="/wishlist" className="hover:text-[#11231e] transition">Wishlist</Link>
+                <Link to="/user" className="hover:text-[#11231e] transition">My Orders & Invoices</Link>
               </li>
               <li>
-                <Link to="/cart" className="hover:text-[#11231e] transition">Shopping Cart</Link>
+                <Link to="/faq" className="hover:text-[#11231e] transition">FAQs & Help Center</Link>
               </li>
-              <li className="hover:text-[#11231e] cursor-pointer">
-                Free Shipping Policy
+              <li>
+                <Link to="/faq" className="hover:text-[#11231e] transition">10-Day Returns Policy</Link>
               </li>
-              <li className="hover:text-[#11231e] cursor-pointer">
-                10-Day Returns & Exchange
-              </li>
-              <li className="hover:text-[#11231e] cursor-pointer">
-                Privacy & Terms
+              <li>
+                <Link to="/contact" className="hover:text-[#11231e] transition">Contact Support</Link>
               </li>
             </ul>
           </div>
@@ -127,9 +124,8 @@ const Footer = () => {
           </p>
 
           <div className="flex gap-6 font-['Poppins'] text-sm text-[#666]">
-            <span className="hover:text-[#11231e] cursor-pointer">Terms of Service</span>
-            <span className="hover:text-[#11231e] cursor-pointer">Privacy Policy</span>
-            <span className="hover:text-[#11231e] cursor-pointer">Security</span>
+            <Link to="/faq" className="hover:text-[#11231e] transition">Terms & Privacy</Link>
+            <Link to="/contact" className="hover:text-[#11231e] transition">Security & Support</Link>
           </div>
         </div>
       </div>

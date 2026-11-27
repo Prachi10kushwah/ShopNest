@@ -1,34 +1,42 @@
 import React, { createContext, useState, useEffect } from "react";
-import all_product from "../components/Assets/all_product";
+import baseProducts from "../components/Assets/all_product";
 import toast from "react-hot-toast";
 
 export const ShopContext = createContext(null);
 
-const getDefaultCart = () => {
+const getDefaultCart = (productsList) => {
   let cart = {};
-  all_product.forEach((product) => {
+  productsList.forEach((product) => {
     cart[product.id] = 0;
   });
   return cart;
 };
 
-const getDefaultWishlist = () => {
+const getDefaultWishlist = (productsList) => {
   let wishlist = {};
-  all_product.forEach((product) => {
+  productsList.forEach((product) => {
     wishlist[product.id] = false;
   });
   return wishlist;
 };
 
 const ShopContextProvider = (props) => {
+  // Dynamic products list (Base products + Custom added - Deleted)
+  const [products, setProducts] = useState(() => {
+    const custom = JSON.parse(localStorage.getItem("shopnestCustomProducts") || "[]");
+    const deletedIds = JSON.parse(localStorage.getItem("shopnestDeletedProductIds") || "[]");
+    const combined = [...custom, ...baseProducts];
+    return combined.filter((p) => !deletedIds.includes(p.id));
+  });
+
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem("cartItems");
-    return savedCart ? JSON.parse(savedCart) : getDefaultCart();
+    return savedCart ? JSON.parse(savedCart) : getDefaultCart(products);
   });
 
   const [wishlistItems, setWishlistItems] = useState(() => {
     const savedWishlist = localStorage.getItem("wishlistItems");
-    return savedWishlist ? JSON.parse(savedWishlist) : getDefaultWishlist();
+    return savedWishlist ? JSON.parse(savedWishlist) : getDefaultWishlist(products);
   });
 
   const [search, setSearch] = useState("");
@@ -44,6 +52,12 @@ const ShopContextProvider = (props) => {
   const [orders, setOrders] = useState(() => {
     const savedOrders = localStorage.getItem("shopnestOrders");
     return savedOrders ? JSON.parse(savedOrders) : [];
+  });
+
+  // User state
+  const [currentUser, setCurrentUser] = useState(() => {
+    const saved = localStorage.getItem("shopnestUser");
+    return saved ? JSON.parse(saved) : null;
   });
 
   useEffect(() => {
@@ -103,7 +117,7 @@ const ShopContextProvider = (props) => {
     let totalAmount = 0;
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
-        let product = all_product.find(
+        let product = products.find(
           (product) => product.id === Number(item)
         );
         if (product) {
@@ -153,7 +167,7 @@ const ShopContextProvider = (props) => {
   };
 
   const clearCart = () => {
-    setCartItems(getDefaultCart());
+    setCartItems(getDefaultCart(products));
     setCoupon(null);
   };
 
@@ -163,11 +177,10 @@ const ShopContextProvider = (props) => {
     const discount = getDiscountAmount();
     const total = getFinalTotalAmount();
 
-    // Collect cart products
     const items = [];
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
-        const prod = all_product.find((p) => p.id === Number(item));
+        const prod = products.find((p) => p.id === Number(item));
         if (prod) {
           items.push({
             id: prod.id,
@@ -197,7 +210,7 @@ const ShopContextProvider = (props) => {
       couponCode: coupon?.code || null,
       totalAmount: total,
       paymentMethod: customerDetails.paymentMethod || "Cash on Delivery",
-      status: "Confirmed",
+      status: "Confirmed", // Confirmed -> Processing -> Shipped -> Delivered
     };
 
     setOrders((prev) => [newOrder, ...prev]);
@@ -214,8 +227,65 @@ const ShopContextProvider = (props) => {
     toast.success("Order marked as cancelled");
   };
 
+  // Admin: Update order status
+  const updateOrderStatus = (orderId, newStatus) => {
+    setOrders((prev) =>
+      prev.map((o) =>
+        o.orderId === orderId ? { ...o, status: newStatus } : o
+      )
+    );
+    toast.success(`Order ${orderId} status updated to ${newStatus}`);
+  };
+
+  // Admin: Add new product
+  const addProduct = (productData) => {
+    const newId = Date.now();
+    const product = {
+      id: newId,
+      name: productData.name,
+      category: productData.category,
+      image: productData.image,
+      new_price: Number(productData.new_price),
+      old_price: productData.old_price ? Number(productData.old_price) : Number(productData.new_price) * 1.3,
+      isNew: true,
+    };
+
+    const currentCustom = JSON.parse(localStorage.getItem("shopnestCustomProducts") || "[]");
+    const updatedCustom = [product, ...currentCustom];
+    localStorage.setItem("shopnestCustomProducts", JSON.stringify(updatedCustom));
+
+    setProducts((prev) => [product, ...prev]);
+    toast.success("New product published successfully!");
+    return product;
+  };
+
+  // Admin: Delete product
+  const deleteProduct = (id) => {
+    const currentDeleted = JSON.parse(localStorage.getItem("shopnestDeletedProductIds") || "[]");
+    const updatedDeleted = [...currentDeleted, id];
+    localStorage.setItem("shopnestDeletedProductIds", JSON.stringify(updatedDeleted));
+
+    // Also remove from custom products if it was custom
+    const currentCustom = JSON.parse(localStorage.getItem("shopnestCustomProducts") || "[]");
+    const updatedCustom = currentCustom.filter((p) => p.id !== id);
+    localStorage.setItem("shopnestCustomProducts", JSON.stringify(updatedCustom));
+
+    setProducts((prev) => prev.filter((p) => p.id !== id));
+    toast.success("Product deleted successfully");
+  };
+
+  // User: Update Profile
+  const updateUserProfile = (updatedData) => {
+    const merged = { ...currentUser, ...updatedData };
+    localStorage.setItem("shopnestUser", JSON.stringify(merged));
+    setCurrentUser(merged);
+    toast.success("Profile updated successfully!");
+    return merged;
+  };
+
   const contextvalue = {
-    all_product,
+    all_product: products,
+    products,
     cartItems,
     addToCart,
     removeFromCart,
@@ -237,6 +307,11 @@ const ShopContextProvider = (props) => {
     orders,
     placeOrder,
     cancelOrder,
+    updateOrderStatus,
+    addProduct,
+    deleteProduct,
+    currentUser,
+    updateUserProfile,
   };
 
   return (

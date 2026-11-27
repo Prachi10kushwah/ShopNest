@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import logo from "../Assets/logo.png";
-import { ShoppingCart, CircleUserRound, Heart, Search, X, Menu } from "lucide-react";
+import { ShoppingCart, CircleUserRound, Heart, Search, X, Menu, Package } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 import SearchSuggestions from "../SearchSuggestions/SearchSuggestions";
@@ -110,7 +110,16 @@ const Navbar = () => {
         </div>
 
         {/*---------------- Right Actions (Icons + Login) ----------------*/}
-        <div className="flex items-center gap-4 sm:gap-6">
+        <div className="flex items-center gap-3 sm:gap-5">
+          {/* Track Live Order quick link */}
+          <Link
+            to="/track-order"
+            className="hidden sm:flex items-center gap-1 text-xs font-semibold text-[#11231e] hover:text-[#255347] py-1 px-2.5 rounded-full border border-[#d7c8bf] bg-white/60 transition"
+            title="Track Order"
+          >
+            <Package size={14} /> Track Order
+          </Link>
+
           {/* Wishlist */}
           <Link
             to="/wishlist"
@@ -153,41 +162,60 @@ const Navbar = () => {
               )}
             </Link>
 
-            {isLoggedIn ? (
-              <div className="absolute right-0 mt-2 w-44 bg-white rounded-2xl shadow-xl border border-[#ead8cc] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-2">
-                <div className="px-4 py-2 border-b border-gray-100">
-                  <p className="text-xs text-gray-400">Signed in as</p>
-                  <p className="text-sm font-semibold text-[#11231e] truncate">{user?.name}</p>
-                </div>
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-[#ead8cc] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-2">
+              {isLoggedIn ? (
+                <>
+                  <div className="px-4 py-2 border-b border-gray-100">
+                    <p className="text-xs text-gray-400">Signed in as</p>
+                    <p className="text-sm font-semibold text-[#11231e] truncate">{user?.name}</p>
+                  </div>
 
-                <Link
-                  to="/user"
-                  className="block px-4 py-2.5 hover:bg-[#FAF6F3] text-sm text-[#11231e]"
-                >
-                  My Profile & Orders
-                </Link>
+                  <Link
+                    to="/user"
+                    className="block px-4 py-2 hover:bg-[#FAF6F3] text-sm text-[#11231e]"
+                  >
+                    My Profile & Orders
+                  </Link>
 
-                <Link
-                  to="/wishlist"
-                  className="block px-4 py-2.5 hover:bg-[#FAF6F3] text-sm text-[#11231e]"
-                >
-                  My Wishlist
-                </Link>
+                  <Link
+                    to="/track-order"
+                    className="block px-4 py-2 hover:bg-[#FAF6F3] text-sm text-[#11231e]"
+                  >
+                    Track Live Order
+                  </Link>
 
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-4 py-2.5 hover:bg-red-50 text-sm text-red-600 font-medium cursor-pointer"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <Link to="/login" className="hidden sm:block">
-                <button className="border border-[#11231e] px-4 py-1.5 rounded-full font-['Poppins'] text-sm font-medium text-[#11231e] hover:bg-[#11231e] hover:text-white active:scale-95 transition cursor-pointer">
-                  Login
-                </button>
-              </Link>
-            )}
+                  <Link
+                    to="/wishlist"
+                    className="block px-4 py-2 hover:bg-[#FAF6F3] text-sm text-[#11231e]"
+                  >
+                    My Wishlist
+                  </Link>
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 hover:bg-red-50 text-sm text-red-600 font-medium cursor-pointer border-t border-gray-100 mt-1"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="block px-4 py-2.5 hover:bg-[#FAF6F3] text-sm font-semibold text-[#11231e]"
+                  >
+                    Sign In / Register
+                  </Link>
+
+                  <Link
+                    to="/track-order"
+                    className="block px-4 py-2 hover:bg-[#FAF6F3] text-sm text-gray-600"
+                  >
+                    Track Order
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Toggle Button */}
@@ -232,7 +260,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Navigation Links */}
-          <ul className="flex flex-col gap-3 font-['Poppins'] font-medium text-[#11231e] pt-2">
+          <ul className="flex flex-col gap-2 font-['Poppins'] font-medium text-[#11231e] pt-2">
             {navLinks.map((link) => (
               <li key={link.path}>
                 <Link
@@ -248,6 +276,34 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+
+            <li className="pt-2 border-t border-gray-200">
+              <Link
+                to="/track-order"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 px-3 rounded-lg text-gray-700 hover:bg-white"
+              >
+                Track Live Order
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/faq"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 px-3 rounded-lg text-gray-700 hover:bg-white"
+              >
+                FAQs & Help
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 px-3 rounded-lg text-gray-700 hover:bg-white"
+              >
+                Contact Support
+              </Link>
+            </li>
           </ul>
         </div>
       )}
