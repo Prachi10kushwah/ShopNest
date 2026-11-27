@@ -1,22 +1,22 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Star, Heart } from "lucide-react";
+import { Star, Heart, ShoppingBag } from "lucide-react";
 import { ShopContext } from "../../Context/ShopContext";
 import WishlistBurst from "../WishlistBurst/WishlistBurst";
 import toast from "react-hot-toast";
 
 const ProductDisplay = ({ product }) => {
-  const {
-    addToCart,
-    wishlistItems,
-    toggleWishlist,
-  } = useContext(ShopContext);
+  const { addToCart, wishlistItems, toggleWishlist } = useContext(ShopContext);
 
-  const isAccessory = product.category === "watches" || product.category === "bags";
-  const sizeOptions = isAccessory ? ["One Size", "Standard"] : ["S", "M", "L", "XL", "XXL"];
+  const isAccessory =
+    product.category === "watches" || product.category === "bags";
+  const sizeOptions = isAccessory
+    ? ["One Size", "Standard"]
+    : ["S", "M", "L", "XL", "XXL"];
 
   const [selectedSize, setSelectedSize] = useState(sizeOptions[0]);
   const [selectedImage, setSelectedImage] = useState(product.image);
   const [isBursting, setIsBursting] = useState(false);
+  const [isCartSquashing, setIsCartSquashing] = useState(false);
 
   useEffect(() => {
     setSelectedImage(product.image);
@@ -32,6 +32,20 @@ const ProductDisplay = ({ product }) => {
   ];
 
   const isFavorited = !!wishlistItems[product.id];
+
+  const handleAddToCart = () => {
+    addToCart(product.id);
+    setIsCartSquashing(true);
+    window.dispatchEvent(new CustomEvent("cart-burst-event"));
+
+    toast.success(`Added ${product.name} (${selectedSize}) to cart!`, {
+      icon: "🛍️",
+    });
+
+    setTimeout(() => {
+      setIsCartSquashing(false);
+    }, 650);
+  };
 
   const handleWishlistToggle = () => {
     toggleWishlist(product.id);
@@ -173,14 +187,23 @@ const ProductDisplay = ({ product }) => {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mt-10 items-center">
+          {/* Squash & Stretch ADD TO CART Button */}
           <button
-            onClick={() => {
-              addToCart(product.id);
-              toast.success(`Added ${product.name} to cart!`);
-            }}
-            className="w-full sm:w-[260px] h-[55px] rounded-full bg-[#11231e] text-white text-base sm:text-lg font-semibold hover:bg-[#1b3a33] transition duration-300 shadow-lg cursor-pointer active:scale-95"
+            onClick={handleAddToCart}
+            className={`w-full sm:w-[260px] h-[55px] rounded-full text-white text-base sm:text-lg font-semibold shadow-lg cursor-pointer flex items-center justify-center gap-2 select-none transform-gpu ${
+              isCartSquashing
+                ? "animate-squash-stretch bg-[#255347] ring-4 ring-[#255347]/50 shadow-2xl"
+                : "bg-[#11231e] hover:bg-[#1b3a33] active:scale-95"
+            }`}
           >
-            ADD TO CART
+            {isCartSquashing ? (
+              <>
+                <ShoppingBag size={20} className="animate-bounce" />
+                <span>ADDED!</span>
+              </>
+            ) : (
+              "ADD TO CART"
+            )}
           </button>
 
           {/* Exaggerated Wishlist Button */}

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 const Item = (props) => {
   const { wishlistItems, toggleWishlist, addToCart } = useContext(ShopContext);
   const [isBursting, setIsBursting] = useState(false);
+  const [isCartSquashing, setIsCartSquashing] = useState(false);
 
   const isFavorited = !!wishlistItems[props.id];
 
@@ -24,7 +25,6 @@ const Item = (props) => {
       setIsBursting(true);
       window.dispatchEvent(new CustomEvent("wishlist-burst-event"));
 
-      // Animated custom celebratory toast
       toast.custom(
         (t) => (
           <div
@@ -58,11 +58,18 @@ const Item = (props) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(props.id);
-    toast.success(`Added ${props.name} to cart!`);
+    setIsCartSquashing(true);
+    window.dispatchEvent(new CustomEvent("cart-burst-event"));
+
+    toast.success(`Added ${props.name} to cart!`, { icon: "🛍️" });
+
+    setTimeout(() => {
+      setIsCartSquashing(false);
+    }, 650);
   };
 
   return (
-    <div className="relative group transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between">
+    <div className={`relative group transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between ${isCartSquashing ? "animate-card-squash" : ""}`}>
       {/* ----------------- Wishlist Button with Exaggerated Animation --------------------- */}
       <div className="absolute top-3 right-3 z-20">
         <button
@@ -89,7 +96,7 @@ const Item = (props) => {
         <WishlistBurst active={isBursting} />
       </div>
 
-      {/* --------------- Product Image & Quick Add ----------------------------------------------- */}
+      {/* --------------- Product Image & Squash/Stretch Quick Add ----------------------------------------------- */}
       <div className="relative overflow-hidden rounded-2xl bg-[#f4ebe4] shadow-xs">
         <Link to={`/product/${props.id}`} onClick={() => window.scrollTo(0, 0)}>
           <img
@@ -99,12 +106,17 @@ const Item = (props) => {
           />
         </Link>
 
-        {/* Quick Add To Cart Hover Button */}
+        {/* Squash and Stretch Quick Add To Cart Button */}
         <button
           onClick={handleQuickAdd}
-          className="absolute bottom-3 left-3 right-3 py-2.5 bg-[#11231e]/90 hover:bg-[#11231e] text-white text-xs sm:text-sm font-semibold rounded-xl flex items-center justify-center gap-2 backdrop-blur-xs opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 shadow-md cursor-pointer"
+          className={`absolute bottom-3 left-3 right-3 py-2.5 rounded-xl flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold shadow-md cursor-pointer select-none transform-gpu ${
+            isCartSquashing
+              ? "animate-squash-stretch bg-[#255347] text-white opacity-100 ring-4 ring-[#255347]/50 shadow-xl"
+              : "bg-[#11231e]/90 hover:bg-[#11231e] text-white opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
+          }`}
         >
-          <ShoppingBag size={16} /> Quick Add
+          <ShoppingBag size={16} className={isCartSquashing ? "animate-bounce" : ""} />
+          {isCartSquashing ? "Added to Cart! ✨" : "Quick Add"}
         </button>
       </div>
 

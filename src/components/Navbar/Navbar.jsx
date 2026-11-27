@@ -1,13 +1,22 @@
 import React, { useContext, useState, useEffect } from "react";
 import logo from "../Assets/logo.png";
-import { ShoppingCart, CircleUserRound, Heart, Search, X, Menu, Package } from "lucide-react";
+import {
+  ShoppingCart,
+  CircleUserRound,
+  Heart,
+  Search,
+  X,
+  Menu,
+  Package,
+} from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 import SearchSuggestions from "../SearchSuggestions/SearchSuggestions";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
-  const { all_product, cartItems, wishlistItems, search, setSearch } = useContext(ShopContext);
+  const { all_product, cartItems, wishlistItems, search, setSearch } =
+    useContext(ShopContext);
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [navHeartBounce, setNavHeartBounce] = useState(false);
@@ -21,13 +30,11 @@ const Navbar = () => {
     };
 
     window.addEventListener("wishlist-burst-event", handleBurst);
-    return () => window.removeEventListener("wishlist-burst-event", handleBurst);
+    return () =>
+      window.removeEventListener("wishlist-burst-event", handleBurst);
   }, []);
 
-  const cartCount = Object.values(cartItems).reduce(
-    (sum, qty) => sum + qty,
-    0
-  );
+  const cartCount = Object.values(cartItems).reduce((sum, qty) => sum + qty, 0);
   const wishlistCount = Object.values(wishlistItems).filter(Boolean).length;
 
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -191,7 +198,9 @@ const Navbar = () => {
                 <>
                   <div className="px-4 py-2 border-b border-gray-100">
                     <p className="text-xs text-gray-400">Signed in as</p>
-                    <p className="text-sm font-semibold text-[#11231e] truncate">{user?.name}</p>
+                    <p className="text-sm font-semibold text-[#11231e] truncate">
+                      {user?.name}
+                    </p>
                   </div>
 
                   <Link
