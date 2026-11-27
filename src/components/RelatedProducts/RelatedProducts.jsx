@@ -11,23 +11,25 @@ const RelatedProducts = ({ product }) => {
       item.id !== product.id
   );
 
+  if (relatedProducts.length === 0) return null;
+
   return (
-    <div className="max-w-7xl mx-auto py-20 px-6">
+    <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 border-t border-[#ead8cc]">
       {/* Heading */}
       <div className="text-center">
-        <h1 className="text-4xl font-bold text-[#11231e] font-['Cormorant_Garamond']">
+        <h2 className="text-3xl sm:text-4xl font-bold text-[#11231e] font-['Cormorant_Garamond']">
           Related Products
-        </h1>
+        </h2>
 
-        <p className="mt-3 text-[#666] text-lg">
-          You may also like these products
+        <p className="mt-2 text-[#666] text-sm sm:text-base">
+          Customers who viewed this also loved these
         </p>
 
-        <div className="w-28 h-1 bg-[#11231e] mx-auto mt-4 rounded-full"></div>
+        <div className="w-20 h-1 bg-[#11231e] mx-auto mt-3 rounded-full"></div>
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-4 gap-8 mt-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 mt-10">
         {relatedProducts.slice(0, 4).map((item) => (
           <Item
             key={item.id}
