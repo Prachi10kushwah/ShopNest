@@ -1,20 +1,56 @@
 import { Link } from "react-router-dom";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Heart, ShoppingBag } from "lucide-react";
 import { ShopContext } from "../../Context/ShopContext";
+import WishlistBurst from "../WishlistBurst/WishlistBurst";
 import toast from "react-hot-toast";
 
 const Item = (props) => {
   const { wishlistItems, toggleWishlist, addToCart } = useContext(ShopContext);
+  const [isBursting, setIsBursting] = useState(false);
+
+  const isFavorited = !!wishlistItems[props.id];
 
   const handleWishlistToggle = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
     toggleWishlist(props.id);
-    if (wishlistItems[props.id]) {
+
+    if (isFavorited) {
       toast("Removed from wishlist", { icon: "💔" });
     } else {
-      toast.success("Added to wishlist!");
+      // Exaggerated feedback animation trigger
+      setIsBursting(true);
+      window.dispatchEvent(new CustomEvent("wishlist-burst-event"));
+
+      // Animated custom celebratory toast
+      toast.custom(
+        (t) => (
+          <div
+            className={`${
+              t.visible ? "animate-in fade-in zoom-in-95" : "animate-out fade-out zoom-out-95"
+            } max-w-sm w-full bg-[#11231e] text-white shadow-2xl rounded-2xl p-4 flex items-center gap-3.5 border-2 border-red-400/50 pointer-events-auto`}
+          >
+            <div className="w-11 h-11 rounded-xl bg-red-500/20 text-red-500 flex items-center justify-center text-2xl animate-bounce flex-shrink-0">
+              💖
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="text-sm font-bold text-red-200">
+                Added to Wishlist! ✨
+              </h4>
+              <p className="text-xs text-gray-300 truncate mt-0.5">
+                {props.name} saved to your favorites.
+              </p>
+            </div>
+          </div>
+        ),
+        { duration: 2400 }
+      );
+
+      setTimeout(() => {
+        setIsBursting(false);
+      }, 900);
     }
   };
 
@@ -27,19 +63,31 @@ const Item = (props) => {
 
   return (
     <div className="relative group transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between">
-      {/* ----------------- Wishlist Button --------------------- */}
-      <button
-        type="button"
-        onClick={handleWishlistToggle}
-        className="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-md hover:scale-110 active:scale-95 transition cursor-pointer"
-        title="Wishlist"
-      >
-        <Heart
-          size={18}
-          fill={wishlistItems[props.id] ? "#ef4444" : "none"}
-          color={wishlistItems[props.id] ? "#ef4444" : "#11231e"}
-        />
-      </button>
+      {/* ----------------- Wishlist Button with Exaggerated Animation --------------------- */}
+      <div className="absolute top-3 right-3 z-20">
+        <button
+          type="button"
+          onClick={handleWishlistToggle}
+          className={`relative p-2 rounded-full shadow-md transition-all duration-200 cursor-pointer ${
+            isFavorited
+              ? "bg-red-50 text-red-500 hover:bg-red-100"
+              : "bg-white/95 text-[#11231e] hover:bg-white hover:scale-110"
+          } ${isBursting ? "animate-heart-pop ring-4 ring-red-400/50" : ""}`}
+          title={isFavorited ? "Remove from Wishlist" : "Add to Wishlist"}
+        >
+          <Heart
+            size={18}
+            className={`transition-all duration-300 ${
+              isBursting ? "scale-125" : ""
+            }`}
+            fill={isFavorited ? "#ef4444" : "none"}
+            color={isFavorited ? "#ef4444" : "#11231e"}
+          />
+        </button>
+
+        {/* Exaggerated Particles & Shockwave Component */}
+        <WishlistBurst active={isBursting} />
+      </div>
 
       {/* --------------- Product Image & Quick Add ----------------------------------------------- */}
       <div className="relative overflow-hidden rounded-2xl bg-[#f4ebe4] shadow-xs">

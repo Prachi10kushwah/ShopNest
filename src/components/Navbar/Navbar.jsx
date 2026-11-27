@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import logo from "../Assets/logo.png";
 import { ShoppingCart, CircleUserRound, Heart, Search, X, Menu, Package } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -10,6 +10,19 @@ const Navbar = () => {
   const { all_product, cartItems, wishlistItems, search, setSearch } = useContext(ShopContext);
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [navHeartBounce, setNavHeartBounce] = useState(false);
+
+  useEffect(() => {
+    const handleBurst = () => {
+      setNavHeartBounce(true);
+      setTimeout(() => {
+        setNavHeartBounce(false);
+      }, 900);
+    };
+
+    window.addEventListener("wishlist-burst-event", handleBurst);
+    return () => window.removeEventListener("wishlist-burst-event", handleBurst);
+  }, []);
 
   const cartCount = Object.values(cartItems).reduce(
     (sum, qty) => sum + qty,
@@ -123,12 +136,23 @@ const Navbar = () => {
           {/* Wishlist */}
           <Link
             to="/wishlist"
-            className="relative p-1.5 rounded-full hover:bg-[#FAF6F3] transition"
+            className={`relative p-1.5 rounded-full hover:bg-[#FAF6F3] transition ${
+              navHeartBounce ? "animate-nav-wishlist-bounce text-red-500" : ""
+            }`}
             title="Wishlist"
           >
-            <Heart size={24} className="text-[#11231e]" />
+            <Heart
+              size={24}
+              className={`transition-colors duration-200 ${
+                navHeartBounce ? "text-red-500 fill-red-500" : "text-[#11231e]"
+              }`}
+            />
             {wishlistCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-600 text-white text-xs font-bold flex items-center justify-center animate-in zoom-in duration-200">
+              <span
+                className={`absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-600 text-white text-xs font-bold flex items-center justify-center transition-transform ${
+                  navHeartBounce ? "scale-125" : ""
+                }`}
+              >
                 {wishlistCount}
               </span>
             )}

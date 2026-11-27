@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Star, Heart } from "lucide-react";
 import { ShopContext } from "../../Context/ShopContext";
+import WishlistBurst from "../WishlistBurst/WishlistBurst";
 import toast from "react-hot-toast";
 
 const ProductDisplay = ({ product }) => {
@@ -15,6 +16,7 @@ const ProductDisplay = ({ product }) => {
 
   const [selectedSize, setSelectedSize] = useState(sizeOptions[0]);
   const [selectedImage, setSelectedImage] = useState(product.image);
+  const [isBursting, setIsBursting] = useState(false);
 
   useEffect(() => {
     setSelectedImage(product.image);
@@ -28,6 +30,48 @@ const ProductDisplay = ({ product }) => {
     product.image,
     product.image,
   ];
+
+  const isFavorited = !!wishlistItems[product.id];
+
+  const handleWishlistToggle = () => {
+    toggleWishlist(product.id);
+
+    if (isFavorited) {
+      toast("Removed from wishlist", { icon: "💔" });
+    } else {
+      // Exaggerated feedback animation trigger
+      setIsBursting(true);
+      window.dispatchEvent(new CustomEvent("wishlist-burst-event"));
+
+      // Animated celebratory toast
+      toast.custom(
+        (t) => (
+          <div
+            className={`${
+              t.visible ? "animate-in fade-in zoom-in-95" : "animate-out fade-out zoom-out-95"
+            } max-w-sm w-full bg-[#11231e] text-white shadow-2xl rounded-2xl p-4 flex items-center gap-3.5 border-2 border-red-400/50 pointer-events-auto`}
+          >
+            <div className="w-11 h-11 rounded-xl bg-red-500/20 text-red-500 flex items-center justify-center text-2xl animate-bounce flex-shrink-0">
+              💖
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="text-sm font-bold text-red-200">
+                Added to Wishlist! ✨
+              </h4>
+              <p className="text-xs text-gray-300 truncate mt-0.5">
+                {product.name} saved to your favorites.
+              </p>
+            </div>
+          </div>
+        ),
+        { duration: 2400 }
+      );
+
+      setTimeout(() => {
+        setIsBursting(false);
+      }, 900);
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-16 py-12 lg:py-16 px-6 bg-[#FDECE2]">
@@ -127,8 +171,8 @@ const ProductDisplay = ({ product }) => {
           </div>
         </div>
 
-        {/* Add To Cart */}
-        <div className="flex flex-col sm:flex-row gap-4 mt-10">
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 mt-10 items-center">
           <button
             onClick={() => {
               addToCart(product.id);
@@ -139,28 +183,27 @@ const ProductDisplay = ({ product }) => {
             ADD TO CART
           </button>
 
-          {/* Wishlist Button */}
-          <button
-            onClick={() => {
-              toggleWishlist(product.id);
-              if (wishlistItems[product.id]) {
-                toast("Removed from wishlist", { icon: "💔" });
-              } else {
-                toast.success("Added to wishlist!");
-              }
-            }}
-            className={`w-full sm:w-[220px] h-[55px] rounded-full flex items-center justify-center gap-2 text-base sm:text-lg font-semibold transition duration-300 shadow-sm cursor-pointer ${
-              wishlistItems[product.id]
-                ? "bg-red-500 text-white hover:bg-red-600"
-                : "border-2 border-red-400 text-red-500 bg-white hover:bg-red-500 hover:text-white"
-            }`}
-          >
-            <Heart
-              size={20}
-              fill={wishlistItems[product.id] ? "currentColor" : "none"}
-            />
-            {wishlistItems[product.id] ? "Wishlisted" : "Add to Wishlist"}
-          </button>
+          {/* Exaggerated Wishlist Button */}
+          <div className="relative w-full sm:w-auto">
+            <button
+              onClick={handleWishlistToggle}
+              className={`w-full sm:w-[220px] h-[55px] rounded-full flex items-center justify-center gap-2 text-base sm:text-lg font-semibold transition-all duration-300 shadow-sm cursor-pointer relative overflow-visible ${
+                isFavorited
+                  ? "bg-red-500 text-white hover:bg-red-600 shadow-red-200"
+                  : "border-2 border-red-400 text-red-500 bg-white hover:bg-red-500 hover:text-white"
+              } ${isBursting ? "animate-heart-pop ring-4 ring-red-400" : ""}`}
+            >
+              <Heart
+                size={20}
+                className={isBursting ? "animate-heart-pop" : ""}
+                fill={isFavorited ? "currentColor" : "none"}
+              />
+              {isFavorited ? "Wishlisted" : "Add to Wishlist"}
+            </button>
+
+            {/* Particle Burst Overlay */}
+            <WishlistBurst active={isBursting} />
+          </div>
         </div>
 
         {/* Category & Tags */}
